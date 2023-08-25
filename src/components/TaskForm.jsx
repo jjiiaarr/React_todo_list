@@ -7,8 +7,27 @@ const TaskForm = () => {
   const [taskData, setTaskData] = useState({
     task: "",
     status: "todo",
+    tags: [],
   });
 
+  const checkTag = (tag) => {
+    return taskData.tags.some((item) => item === tag);
+  };
+
+  const selectTag = (tag) => {
+    if (taskData.tags.some((item) => item === tag)) {
+      const filterTags = taskData.tags.filter((item) => item !== tag);
+      setTaskData((prev) => {
+        return { ...prev, tags: filterTags };
+      });
+    } else {
+      setTaskData((prev) => {
+        return { ...prev, tags: [...prev.tags, tag] };
+      });
+    }
+  };
+
+  console.log(taskData.tags);
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -22,16 +41,6 @@ const TaskForm = () => {
     console.log(taskData);
   };
 
-  //   const [task, setTask] = useState("");
-  //   const [status, setStatus] = useState("todo");
-
-  //   const handleTaskChange = (e) => {
-  //     setTask(e.target.value);
-  //   };
-  //   const handleStatusChange = (e) => {
-  //     setStatus(e.target.value);
-  //   };
-  //   console.log(task, status);
   return (
     <header className="app_header">
       <form onSubmit={handleSubmit}>
@@ -44,10 +53,26 @@ const TaskForm = () => {
         />
         <div className="task_form_bottom_line">
           <div>
-            <Tag tagName="HTML" />
-            <Tag tagName="CSS" />
-            <Tag tagName="JavaScript" />
-            <Tag tagName="React" />
+            <Tag
+              tagName="HTML"
+              selectTag={selectTag}
+              selected={checkTag("HTML")}
+            />
+            <Tag
+              tagName="CSS"
+              selectTag={selectTag}
+              selected={checkTag("CSS")}
+            />
+            <Tag
+              tagName="JavaScript"
+              selectTag={selectTag}
+              selected={checkTag("JavaScript")}
+            />
+            <Tag
+              tagName="React"
+              selectTag={selectTag}
+              selected={checkTag("React")}
+            />
           </div>
 
           <div>
